@@ -1,14 +1,19 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COLORS } from "../data/colors";
-import { PAGES, getPagePath } from "../data/pages";
-import { CATEGORIES } from "../data/categories";
-import { FAQ_ITEMS } from "../data/faq";
+import { getPages, getPagePath } from "../data/pages";
+import { getCategories } from "../data/categories";
+import { getFaqItems } from "../data/faq";
+import { useLang } from "../i18n/useLang";
+import { getUIStrings } from "../i18n/ui";
 import { PageLayout } from "../components/PageLayout";
-import type { FaqItem as FaqItemType } from "../data/types";
+import type { FaqItem as FaqItemType, Lang } from "../data/types";
 
-const FaqItem = ({ item, index, isOpen, onToggle }: { item: FaqItemType; index: number; isOpen: boolean; onToggle: () => void }) => {
+const FaqItem = ({ item, index, isOpen, onToggle, lang }: { item: FaqItemType; index: number; isOpen: boolean; onToggle: () => void; lang: Lang }) => {
   const cat = item.mecanismeColor;
+  const pages = getPages(lang);
+  const categories = getCategories(lang);
+  const t = getUIStrings(lang);
 
   return (
     <div
@@ -134,16 +139,16 @@ const FaqItem = ({ item, index, isOpen, onToggle }: { item: FaqItemType; index: 
                   letterSpacing: "0.5px",
                 }}
               >
-                Approfondir :
+                {t.deepen}
               </span>
               {item.liens.map((lien) => {
-                const page = PAGES[lien];
+                const page = pages[lien];
                 if (!page) return null;
-                const linkColor = page.category ? CATEGORIES[page.category]?.color : COLORS.accent;
+                const linkColor = page.category ? categories[page.category]?.color : COLORS.accent;
                 return (
                   <Link
                     key={lien}
-                    to={getPagePath(lien)}
+                    to={getPagePath(lang, lien)}
                     style={{
                       fontSize: "13px",
                       fontWeight: 600,
@@ -167,6 +172,9 @@ const FaqItem = ({ item, index, isOpen, onToggle }: { item: FaqItemType; index: 
 };
 
 export const FaqPage = () => {
+  const lang = useLang();
+  const faqItems = getFaqItems(lang);
+  const t = getUIStrings(lang);
   const [openItems, setOpenItems] = useState<Set<number>>(new Set());
 
   const toggle = (index: number) => {
@@ -181,12 +189,12 @@ export const FaqPage = () => {
     });
   };
 
-  const allOpen = openItems.size === FAQ_ITEMS.length;
+  const allOpen = openItems.size === faqItems.length;
 
   return (
     <PageLayout
-      title="« Je ne suis pas antisémite, mais… »"
-      subtitle="12 phrases courantes déconstruites une par une"
+      title={t.faqBannerTitle}
+      subtitle={faqItems.length + " " + t.articles}
       pageKey="faq"
     >
       <div
@@ -201,7 +209,7 @@ export const FaqPage = () => {
             if (allOpen) {
               setOpenItems(new Set());
             } else {
-              setOpenItems(new Set(FAQ_ITEMS.map((_, i) => i)));
+              setOpenItems(new Set(faqItems.map((_, i) => i)));
             }
           }}
           style={{
@@ -215,17 +223,18 @@ export const FaqPage = () => {
             cursor: "pointer",
           }}
         >
-          {allOpen ? "Tout fermer" : "Tout ouvrir"}
+          {allOpen ? t.closeAll : t.openAll}
         </button>
       </div>
 
-      {FAQ_ITEMS.map((item, index) => (
+      {faqItems.map((item, index) => (
         <FaqItem
           key={index}
           item={item}
           index={index}
           isOpen={openItems.has(index)}
           onToggle={() => toggle(index)}
+          lang={lang}
         />
       ))}
     </PageLayout>

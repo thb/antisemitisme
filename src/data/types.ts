@@ -1,3 +1,8 @@
+export type Lang = "fr" | "en";
+
+export const LANGS: Lang[] = ["fr", "en"];
+export const DEFAULT_LANG: Lang = "fr";
+
 export type CategoryKey = "comprendre" | "deconstruire" | "reconnaitre" | "mesurer" | "ressources";
 
 export type PageKey =

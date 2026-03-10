@@ -1,17 +1,10 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { COLORS } from "../data/colors";
-import { CATEGORIES } from "../data/categories";
-import { PAGES, getCategoryPages, getPagePath } from "../data/pages";
+import { getCategories } from "../data/categories";
+import { getCategoryPages, getPagePath, getPageKeyFromPath } from "../data/pages";
+import { useLang } from "../i18n/useLang";
 import type { CategoryKey, PageKey, PageWithKey } from "../data/types";
-
-function getPageKeyFromPath(pathname: string): PageKey {
-  const path = pathname.replace(/\/$/, "") || "/";
-  for (const [key, page] of Object.entries(PAGES) as [PageKey, { path: string }][]) {
-    if (page.path === path) return key;
-  }
-  return "home";
-}
 
 const NavLink = ({
   children,
@@ -52,10 +45,12 @@ const Dropdown = ({
   pages,
   catColor,
   currentPageKey,
+  lang,
 }: {
   pages: PageWithKey[];
   catColor: string;
   currentPageKey: PageKey;
+  lang: string;
 }) => (
   <div
     style={{
@@ -72,7 +67,7 @@ const Dropdown = ({
     }}
   >
     {pages.map((p) => (
-      <DropdownItem key={p.key} page={p} active={currentPageKey === p.key} catColor={catColor} />
+      <DropdownItem key={p.key} page={p} active={currentPageKey === p.key} catColor={catColor} lang={lang} />
     ))}
   </div>
 );
@@ -81,15 +76,17 @@ const DropdownItem = ({
   page,
   active,
   catColor,
+  lang,
 }: {
   page: PageWithKey;
   active: boolean;
   catColor: string;
+  lang: string;
 }) => {
   const [h, setH] = useState(false);
   return (
     <Link
-      to={getPagePath(page.key)}
+      to={getPagePath(lang as any, page.key)}
       style={{ textDecoration: "none", display: "block" }}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
@@ -133,11 +130,12 @@ const DropdownItem = ({
 const NAV_CATEGORIES: CategoryKey[] = ["comprendre", "deconstruire", "reconnaitre", "mesurer"];
 
 export const Nav = () => {
+  const lang = useLang();
   const [menuOpen, setMenuOpen] = useState<string | null>(null);
   const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
-  const currentPageKey = getPageKeyFromPath(location.pathname);
+  const { pageKey: currentPageKey } = getPageKeyFromPath(location.pathname);
 
   useEffect(() => {
     const h = () => setScrolled(window.scrollY > 10);
@@ -145,9 +143,11 @@ export const Nav = () => {
     return () => window.removeEventListener("scroll", h);
   }, []);
 
+  const categories = getCategories(lang);
+
   const catEntries: [CategoryKey, PageWithKey[]][] = NAV_CATEGORIES.map((catKey) => [
     catKey,
-    getCategoryPages(catKey),
+    getCategoryPages(lang, catKey),
   ]);
 
   return (
@@ -175,7 +175,7 @@ export const Nav = () => {
         }}
       >
         <Link
-          to="/"
+          to={`/${lang}`}
           style={{
             fontFamily: "'Inter', -apple-system, sans-serif",
             fontSize: "15px",
@@ -191,28 +191,17 @@ export const Nav = () => {
             textDecoration: "none",
           }}
         >
-          <span
-            style={{
-              width: "28px",
-              height: "28px",
-              borderRadius: "8px",
-              background: `linear-gradient(135deg, ${COLORS.comprendre}, ${COLORS.deconstruire})`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              color: "white",
-              fontSize: "14px",
-              fontWeight: 800,
-            }}
-          >
-            {"\u05D0"}
-          </span>
-          <span style={{ fontSize: "15px" }}>antisemitisme.guide</span>
+          <span style={{
+            fontSize: "15px",
+            background: `linear-gradient(135deg, ${COLORS.comprendre}, ${COLORS.deconstruire})`,
+            backgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+          }}>antisemitisme</span>
         </Link>
 
         <div style={{ display: "flex", gap: "2px", alignItems: "center", fontSize: "14px" }}>
           {catEntries.map(([catKey, pages]) => {
-            const cat = CATEGORIES[catKey];
+            const cat = categories[catKey];
             const isActive = pages.some((p) => p.key === currentPageKey);
             const firstPage = pages[0];
             return (
@@ -223,24 +212,57 @@ export const Nav = () => {
                 onMouseLeave={() => setMenuOpen(null)}
               >
                 <NavLink
-                  to={firstPage ? getPagePath(firstPage.key) : "/"}
+                  to={firstPage ? getPagePath(lang, firstPage.key) : `/${lang}`}
                   active={isActive}
                   color={cat.color}
                 >
                   {cat.label} {"\u25BE"}
                 </NavLink>
                 {menuOpen === catKey && (
-                  <Dropdown pages={pages} catColor={cat.color} currentPageKey={currentPageKey} />
+                  <Dropdown pages={pages} catColor={cat.color} currentPageKey={currentPageKey} lang={lang} />
                 )}
               </div>
             );
           })}
-          <NavLink to="/ressources" active={currentPageKey === "ressources"} color={COLORS.ressources}>
-            Ressources
+          <NavLink to={getPagePath(lang, "ressources")} active={currentPageKey === "ressources"} color={COLORS.ressources}>
+            {categories.ressources.label}
           </NavLink>
-          <NavLink to="/faq" active={currentPageKey === "faq"} color={COLORS.deconstruire}>
+          <NavLink to={getPagePath(lang, "faq")} active={currentPageKey === "faq"} color={COLORS.deconstruire}>
             FAQ
           </NavLink>
+        </div>
+
+        <div style={{ marginLeft: "auto", display: "flex", gap: "4px", alignItems: "center" }}>
+          <Link
+            to={getPagePath("fr", currentPageKey)}
+            style={{
+              padding: "4px 8px",
+              borderRadius: "6px",
+              fontSize: "12px",
+              fontWeight: lang === "fr" ? 700 : 500,
+              color: lang === "fr" ? COLORS.accent : COLORS.textMuted,
+              background: lang === "fr" ? COLORS.accent + "10" : "transparent",
+              textDecoration: "none",
+              transition: "all 0.2s",
+            }}
+          >
+            FR
+          </Link>
+          <Link
+            to={getPagePath("en", currentPageKey)}
+            style={{
+              padding: "4px 8px",
+              borderRadius: "6px",
+              fontSize: "12px",
+              fontWeight: lang === "en" ? 700 : 500,
+              color: lang === "en" ? COLORS.accent : COLORS.textMuted,
+              background: lang === "en" ? COLORS.accent + "10" : "transparent",
+              textDecoration: "none",
+              transition: "all 0.2s",
+            }}
+          >
+            EN
+          </Link>
         </div>
       </div>
     </nav>

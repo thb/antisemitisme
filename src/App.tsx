@@ -1,7 +1,12 @@
-import { Routes, Route, useLocation } from "react-router-dom";
+import { Routes, Route, Navigate, Outlet, useLocation } from "react-router-dom";
 import { useEffect } from "react";
 import { COLORS } from "./data/colors";
 import { Nav } from "./components/Nav";
+import { useLang } from "./i18n/useLang";
+import { getUIStrings } from "./i18n/ui";
+import { getPages } from "./data/pages";
+import type { PageKey } from "./data/types";
+import { LANGS } from "./data/types";
 
 import { HomePage } from "./pages/HomePage";
 import { DefinitionPage } from "./pages/DefinitionPage";
@@ -24,6 +29,50 @@ import { ExceptionPage } from "./pages/ExceptionPage";
 import { RessourcesPage } from "./pages/RessourcesPage";
 import { FaqPage } from "./pages/FaqPage";
 
+const PAGE_COMPONENTS: Record<PageKey, React.ComponentType> = {
+  home: HomePage,
+  definition: DefinitionPage,
+  inversion: InversionPage,
+  quatre_ages: QuatreAgesPage,
+  contradiction: ContradictionPage,
+  matrice: MatricePage,
+  controle: ControlePage,
+  philosemitisme: PhilosemitismePage,
+  bouc: BoucPage,
+  obsession: ObsessionPage,
+  gauche: GauchePage,
+  sionisme: SionismePage,
+  memoire: MemoirePage,
+  sans_juifs: SansJuifsPage,
+  exil: ExilPage,
+  violence: ViolencePage,
+  canari: CanariPage,
+  exception: ExceptionPage,
+  ressources: RessourcesPage,
+  faq: FaqPage,
+};
+
+// Collect all unique slug → component mappings across both languages
+function buildRoutes(): { path: string; Component: React.ComponentType }[] {
+  const seen = new Set<string>();
+  const routes: { path: string; Component: React.ComponentType }[] = [];
+
+  for (const lang of LANGS) {
+    const pages = getPages(lang);
+    for (const [key, page] of Object.entries(pages) as [PageKey, { path: string }][]) {
+      if (key === "home") continue; // handled by index route
+      const slug = page.path.slice(1); // remove leading /
+      if (!seen.has(slug)) {
+        seen.add(slug);
+        routes.push({ path: slug, Component: PAGE_COMPONENTS[key] });
+      }
+    }
+  }
+  return routes;
+}
+
+const ALL_ROUTES = buildRoutes();
+
 function ScrollToTop() {
   const { pathname } = useLocation();
   useEffect(() => {
@@ -32,7 +81,10 @@ function ScrollToTop() {
   return null;
 }
 
-export default function App() {
+function LangLayout() {
+  const lang = useLang();
+  const t = getUIStrings(lang);
+
   return (
     <div
       style={{
@@ -66,28 +118,7 @@ export default function App() {
           padding: "0 32px",
         }}
       >
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/definition" element={<DefinitionPage />} />
-          <Route path="/inversion" element={<InversionPage />} />
-          <Route path="/quatre-ages" element={<QuatreAgesPage />} />
-          <Route path="/contradiction" element={<ContradictionPage />} />
-          <Route path="/matrice" element={<MatricePage />} />
-          <Route path="/controle" element={<ControlePage />} />
-          <Route path="/philosemitisme" element={<PhilosemitismePage />} />
-          <Route path="/bouc-emissaire" element={<BoucPage />} />
-          <Route path="/obsession" element={<ObsessionPage />} />
-          <Route path="/gauche" element={<GauchePage />} />
-          <Route path="/sionisme" element={<SionismePage />} />
-          <Route path="/memoire" element={<MemoirePage />} />
-          <Route path="/sans-juifs" element={<SansJuifsPage />} />
-          <Route path="/exil" element={<ExilPage />} />
-          <Route path="/violence" element={<ViolencePage />} />
-          <Route path="/canari" element={<CanariPage />} />
-          <Route path="/exception" element={<ExceptionPage />} />
-          <Route path="/ressources" element={<RessourcesPage />} />
-          <Route path="/faq" element={<FaqPage />} />
-        </Routes>
+        <Outlet />
       </div>
 
       <footer
@@ -107,9 +138,7 @@ export default function App() {
             margin: "0 auto",
           }}
         >
-          Ce guide est un outil d'éducation et de compréhension.
-          Il ne prétend pas à l'exhaustivité et ne fait ni propagande, ni défense inconditionnelle d'aucun gouvernement.
-          Son objectif est de nommer des mécanismes pour mieux les reconnaître.
+          {t.footer}
         </p>
         <div
           style={{
@@ -148,5 +177,19 @@ export default function App() {
         </div>
       </footer>
     </div>
+  );
+}
+
+export default function App() {
+  return (
+    <Routes>
+      <Route path="/" element={<Navigate to="/fr" replace />} />
+      <Route path="/:lang" element={<LangLayout />}>
+        <Route index element={<HomePage />} />
+        {ALL_ROUTES.map(({ path, Component }) => (
+          <Route key={path} path={path} element={<Component />} />
+        ))}
+      </Route>
+    </Routes>
   );
 }

@@ -1,12 +1,15 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COLORS } from "../data/colors";
-import { CATEGORIES } from "../data/categories";
-import { PAGES, getPagePath } from "../data/pages";
+import { getCategories } from "../data/categories";
+import { getPages, getPagePath } from "../data/pages";
+import { useLang } from "../i18n/useLang";
+import { getUIStrings } from "../i18n/ui";
 import type { CategoryKey, PageKey } from "../data/types";
 
 export const Tag = ({ category, small }: { category: CategoryKey; small?: boolean }) => {
-  const cat = CATEGORIES[category];
+  const lang = useLang();
+  const cat = getCategories(lang)[category];
   if (!cat) return null;
   return (
     <span style={{
@@ -24,10 +27,12 @@ export const Tag = ({ category, small }: { category: CategoryKey; small?: boolea
 };
 
 export const Card = ({ pageKey, page }: { pageKey: PageKey; page: { title: string; subtitle?: string; category: string | null } }) => {
+  const lang = useLang();
+  const t = getUIStrings(lang);
   const [hovered, setHovered] = useState(false);
-  const cat = page.category ? CATEGORIES[page.category as CategoryKey] : null;
+  const cat = page.category ? getCategories(lang)[page.category as CategoryKey] : null;
   return (
-    <Link to={getPagePath(pageKey)} style={{ textDecoration: "none" }}
+    <Link to={getPagePath(lang, pageKey)} style={{ textDecoration: "none" }}
       onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}>
       <div style={{
         background: COLORS.surface,
@@ -57,7 +62,7 @@ export const Card = ({ pageKey, page }: { pageKey: PageKey; page: { title: strin
           fontSize: "13px", fontWeight: 700, letterSpacing: "0.3px",
           display: "flex", alignItems: "center", gap: "4px", transition: "gap 0.2s",
         }}>
-          Lire{" "}
+          {t.readMore}{" "}
           <span style={{ transition: "transform 0.2s", display: "inline-block", transform: hovered ? "translateX(3px)" : "none" }}>→</span>
         </div>
       </div>
@@ -145,12 +150,13 @@ export const P = ({ children, bold }: { children: React.ReactNode; bold?: boolea
 );
 
 export const CrossLink = ({ pageKey, color }: { pageKey: PageKey; color?: string }) => {
-  const page = PAGES[pageKey];
+  const lang = useLang();
+  const page = getPages(lang)[pageKey];
   const [h, setH] = useState(false);
   if (!page) return null;
-  const linkColor = color || (page.category ? CATEGORIES[page.category]?.color : undefined) || COLORS.accent;
+  const linkColor = color || (page.category ? getCategories(lang)[page.category]?.color : undefined) || COLORS.accent;
   return (
-    <Link to={getPagePath(pageKey)}
+    <Link to={getPagePath(lang, pageKey)}
       onMouseEnter={() => setH(true)} onMouseLeave={() => setH(false)}
       style={{
         color: linkColor, fontWeight: 600,

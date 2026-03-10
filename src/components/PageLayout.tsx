@@ -1,8 +1,10 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { COLORS } from "../data/colors";
-import { CATEGORIES } from "../data/categories";
+import { getCategories } from "../data/categories";
 import { getNavigation, getPagePath } from "../data/pages";
+import { useLang } from "../i18n/useLang";
+import { getUIStrings } from "../i18n/ui";
 import type { CategoryKey, PageKey, PageWithKey } from "../data/types";
 import { Tag } from "./ui";
 
@@ -15,11 +17,13 @@ const PrevNextCard = ({
   page: PageWithKey;
   color?: string;
 }) => {
+  const lang = useLang();
+  const t = getUIStrings(lang);
   const [h, setH] = useState(false);
   const isPrev = direction === "prev";
   return (
     <Link
-      to={getPagePath(page.key)}
+      to={getPagePath(lang, page.key)}
       style={{ flex: 1, textDecoration: "none" }}
       onMouseEnter={() => setH(true)}
       onMouseLeave={() => setH(false)}
@@ -45,7 +49,7 @@ const PrevNextCard = ({
             marginBottom: "6px",
           }}
         >
-          {isPrev ? "\u2190 Pr\u00e9c\u00e9dent" : "Suivant \u2192"}
+          {isPrev ? t.previous : t.next}
         </div>
         <div style={{ color: color || COLORS.accent, fontSize: "15px", fontWeight: 700 }}>
           {page.title}
@@ -64,8 +68,10 @@ interface PageLayoutProps {
 }
 
 export const PageLayout = ({ title, subtitle, category, children, pageKey }: PageLayoutProps) => {
-  const cat = category ? CATEGORIES[category] : null;
-  const nav = pageKey ? getNavigation(pageKey) : { prev: null, next: null };
+  const lang = useLang();
+  const categories = getCategories(lang);
+  const cat = category ? categories[category] : null;
+  const nav = pageKey ? getNavigation(lang, pageKey) : { prev: null, next: null };
 
   return (
     <div style={{ paddingTop: "48px", paddingBottom: "60px" }}>

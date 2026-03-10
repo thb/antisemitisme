@@ -1,7 +1,12 @@
 import { COLORS } from "./colors";
-import type { FaqItem } from "./types";
+import type { FaqItem, Lang } from "./types";
 
-export const FAQ_ITEMS: FaqItem[] = [
+export function getFaqItems(lang: Lang): FaqItem[] {
+  if (lang === "en") return FAQ_ITEMS_EN;
+  return FAQ_ITEMS_FR;
+}
+
+const FAQ_ITEMS_FR: FaqItem[] = [
   {
     phrase: "On ne peut être juif que si on est de parents juifs. Ils n'acceptent personne, leur communauté est impénétrable.",
     mecanisme: "Accusation de communautarisme",
@@ -143,6 +148,153 @@ export const FAQ_ITEMS: FaqItem[] = [
       "Un Franco-Algérien qui soutient l'équipe d'Algérie au football n'est pas accusé de traîtrise. Un Franco-Portugais qui envoie de l'argent à sa famille au Portugal n'est pas soupçonné de double allégeance. Un Franco-Irlandais qui soutient la réunification irlandaise n'est pas sommé de choisir. Mais un Juif français qui se soucie du sort d'Israël est immédiatement suspect.",
       "L'attachement de beaucoup de Juifs français à Israël n'est pas différent de l'attachement de toute diaspora à son pays d'origine ou à un État qui représente une assurance existentielle après des siècles de persécution. Ce n'est pas de la « double allégeance » — c'est de la mémoire et de la prudence.",
       "Et surtout : cette accusation crée un piège. Si le Juif affirme sa francité, on lui reproche de se dissimuler. S'il affirme son lien avec Israël, on lui reproche sa déloyauté. C'est l'accusation contradictoire en action — quoi qu'il fasse, il est coupable.",
+    ],
+    liens: ["contradiction", "exil", "exception"],
+  },
+];
+
+const FAQ_ITEMS_EN: FaqItem[] = [
+  {
+    phrase: "You can only be Jewish if your parents are Jewish. They don't accept anyone — their community is impenetrable.",
+    mecanisme: "Accusation of communalism",
+    mecanismeColor: COLORS.deconstruire,
+    reponse: [
+      "This is factually false. Conversion to Judaism has existed since antiquity — Ruth, King David's great-grandmother in the Bible, was a convert. The process is demanding (study, commitment before a rabbinical court, often one to three years of preparation), but it is open.",
+      "What is true is that Judaism does not proselytize. It does not seek to recruit. This is a fundamental difference from Christianity and Islam, which have a missionary vocation. Not seeking to convert others is not 'rejecting people' — it is simply a different conception of religion.",
+      "Matrilineal descent exists in Orthodox Judaism, but it coexists with conversion and with Reform and Conservative Judaism, which also recognize patrilineal descent. Judaism is not monolithic.",
+      "And above all: no one ever criticizes the Amish, the Druze, the Yazidis, or Buddhist monks for having strict membership rules. This reproach is directed only at Jews — which should prompt questions about its real motivation.",
+    ],
+    liens: ["contradiction", "philosemitisme"],
+  },
+  {
+    phrase: "They help each other and don't help anyone else. They favor their own and therefore discriminate against everyone. They see us as goyim, to be exploited.",
+    mecanisme: "From philosemitism to the fantasy of control",
+    mecanismeColor: COLORS.deconstruire,
+    reponse: [
+      "Community solidarity exists among Jews — as it does in any diaspora that has survived centuries of persecution. Armenians, overseas Chinese, Lebanese, and Koreans do exactly the same thing. But no one says 'Armenians hire each other' with the same sinister undertone.",
+      "The slippage is telling: 'they help each other' (neutral observation) becomes 'they only care about themselves' (accusation) becomes 'they exploit others' (paranoia). This is the shift from philosemitism to antisemitism — a simple change of lighting on the same image.",
+      "The word 'goy' simply means 'nation' in Hebrew (plural: goyim, 'the nations'). Its common usage is descriptive and neutral — it refers to non-Jews, just as 'layperson' refers to non-clergy. The idea that Jews view non-Jews as beings to be exploited is a direct recycling of the Protocols of the Elders of Zion, an antisemitic forgery fabricated in 1903.",
+      "Finally, Jewish charitable organizations (American Jewish World Service, Joint Distribution Committee, etc.) are among the most active in the world in non-denominational humanitarian aid. But these facts are invisible to anyone who has already decided on their conclusion.",
+    ],
+    liens: ["philosemitisme", "controle"],
+  },
+  {
+    phrase: "The Nous Vivrons collective is a pro-Israel genocidal Zionist organization. When they come to disrupt LFI meetings, they are genocidal Zionists.",
+    mecanisme: "Chain of syllogisms and dual loyalty",
+    mecanismeColor: COLORS.reconnaitre,
+    reponse: [
+      "Nous Vivrons is a collective created after October 7, 2023, by French Jews to fight antisemitism in France. Calling this initiative 'pro-Israel genocidal Zionist' is to unroll a chain of abusive syllogisms: Jewish organization, therefore pro-Israel, therefore Zionist, therefore genocidal. Each 'therefore' is a shortcut that does not withstand scrutiny.",
+      "The mechanism is precisely the trap of the word Zionism: by making 'Zionist' synonymous with 'genocidal,' it becomes untenable for any Jew who refuses to stay silent in the face of antisemitism. If denouncing anti-Jewish hatred makes you a 'genocidal Zionist,' then silence is the only authorized option.",
+      "The idea that French Jews who protest are 'disrupting' French political life is itself a trope: it is the accusation of dual loyalty, the idea that the Jew is an agent of a foreign power who has no place in the national debate. This is exactly what Dreyfus was accused of.",
+      "One can disagree with a collective's methods. But labeling as 'genocidal' people who are denouncing antisemitism is turning the gravest word against those who are pointing out that they are targeted by hatred. This is victim inversion in action.",
+    ],
+    liens: ["sionisme", "gauche", "memoire"],
+  },
+  {
+    phrase: "I'm not antisemitic, I'm anti-Zionist.",
+    mecanisme: "The semantic trap",
+    mecanismeColor: COLORS.reconnaitre,
+    reponse: [
+      "It all depends on what you mean by 'anti-Zionist.' If it means criticizing the settlement policy in the West Bank, the bombardment of Gaza, or Netanyahu's authoritarian excesses — that is political criticism, perfectly legitimate, and millions of Israelis share it.",
+      "If it means that Israel has no right to exist as a state — then the question is: why that state and not another? Pakistan, Jordan, and Australia were created under at least equally contestable conditions. If the demand for dissolution applies only to the one Jewish state, one must ask what motivates this exception.",
+      "The problem is not the word 'anti-Zionist' — it is how it is used. When 'Zionist' becomes an insult aimed at any Jew who does not condemn Israel, when 'anti-Zionism' serves to recycle classic tropes (control, conspiracy, dual loyalty) with acceptable vocabulary — then anti-Zionism functions as a vehicle for antisemitism, whether its bearer is aware of it or not.",
+      "The test is simple: replace 'Zionist' with 'Jewish' in the sentence. If it becomes obviously antisemitic, it already was.",
+    ],
+    liens: ["sionisme", "obsession", "gauche"],
+  },
+  {
+    phrase: "Why do we always talk about the Holocaust? Other peoples have suffered too.",
+    mecanisme: "Victim competition and weaponized memory",
+    mecanismeColor: COLORS.reconnaitre,
+    reponse: [
+      "Other peoples have suffered — that is true. Slavery, the Armenian and Rwandan genocides, colonization — these tragedies deserve greater recognition and education. But the solution is not less memory for some — it is more memory for all. Memory is not a pie to be divided.",
+      "If the Holocaust is so widely taught, it is because it took place at the heart of Europe, committed by one of the most 'civilized' countries in the world, with industrial bureaucracy, and was documented by the perpetrators themselves. It is also because survivors fought for decades to ensure it would not be forgotten — something we should admire, not resent.",
+      "Irritation at this memory is rarely a simple call for memorial equity. It often masks a deeper reproach: that Jews 'make too much of it,' that they 'instrumentalize' it, that they take up too much space. This is a mechanism that transforms the victims of a genocide into the accused.",
+      "Ask yourself: have you ever campaigned for the Armenian genocide or the Rwandan genocide to be taught more widely? If so, your demand is legitimate. If this demand for memory only activates to call for less Holocaust — then it is not equity, it is resentment.",
+    ],
+    liens: ["memoire", "contradiction"],
+  },
+  {
+    phrase: "They're everywhere — in the media, finance, politics.",
+    mecanisme: "Fantasy of control and confirmation bias",
+    mecanismeColor: COLORS.deconstruire,
+    reponse: [
+      "Certain Jewish individuals hold visible positions in media, finance, or politics. So do individuals who are Breton, Protestant, graduates of elite schools, or Corsican. Turning a statistical observation into proof of a coordinated conspiracy is the quintessential conspiracist mechanism.",
+      "When Patrick Drahi (Jewish) owns a media company, his Jewishness is immediately noted. When Vincent Bolloré (Catholic) owns several, his religious affiliation is never mentioned. This is the definition of confirmation bias: we only retain data that confirms the prejudice.",
+      "This overrepresentation in certain sectors, when it exists, has a historical explanation: excluded from land ownership and most trades by medieval guilds for centuries, Jews turned to commerce, finance, and intellectual professions — the only fields they were allowed. Punishing them today for their adaptation to exclusion is a cruel paradox.",
+      "No one says 'Bretons control the navy' or 'Protestants control Swiss finance.' It is only said of Jews, because behind the observation lies a preexisting narrative framework — that of conspiracy — which only asks to be fed.",
+    ],
+    liens: ["controle", "matrice"],
+  },
+  {
+    phrase: "They must have done something to be hated everywhere for so long.",
+    mecanisme: "Inversion of guilt",
+    mecanismeColor: COLORS.mesurer,
+    reponse: [
+      "This is the most pernicious argument, because it has the appearance of common sense. But applied to any other situation, it collapses: 'Battered women must have done something to provoke their partners.' 'Black people in America must have done something to be enslaved.' No one would sustain these arguments — but people do it for Jews.",
+      "This argument reverses the burden of proof: instead of examining the mechanisms of persecution, it asks the persecuted to justify why they are persecuted. This is the very principle of the scapegoat: the victim is always 'guilty of something.'",
+      "The universality of anti-Jewish hatred does not prove that Jews are guilty of something — it proves that antisemitism is an autonomous system of thought, capable of functioning in any context, including in the total absence of Jews (Poland, Japan, Malaysia).",
+      "The persistence of antisemitism is explained by its structure, not by its target: it is a total explanatory system that provides a convenient culprit for every crisis. The Jew is not hated for what he does — he is hated for the function he fulfills in the collective imagination.",
+    ],
+    liens: ["bouc", "sans_juifs", "definition"],
+  },
+  {
+    phrase: "Criticizing Israel isn't antisemitism — stop conflating the two!",
+    mecanisme: "The straw man",
+    mecanismeColor: COLORS.reconnaitre,
+    reponse: [
+      "No serious person claims that criticizing Israel is antisemitic. Criticizing the colonization of the West Bank, the bombardment of Gaza, Netanyahu's policies — that is political criticism, and it is perfectly legitimate. Millions of Israelis do it themselves, and the largest anti-Netanyahu demonstrations take place in Tel Aviv.",
+      "The problem is not the criticism. The problem is when criticism of a state becomes the delegitimization of a people. When we move from 'Israel's policy is condemnable' to 'Israel should not exist.' When every French Jew is asked to 'take a position' on Gaza to be allowed to dine in peace — a demand made of no other diaspora.",
+      "This phrase functions as a straw man: it fights a position no one holds ('all criticism is antisemitic') to avoid examining the actual position ('some criticism recycles antisemitic tropes'). It is a rhetorical shield that allows one to never question one's own prejudices.",
+      "The real test: do you apply to Israel a standard you apply to no other country? Do you demand that Russians disavow Putin to be acceptable company? That Chinese people condemn the CCP? If your standard only applies to Israel, the question deserves to be asked.",
+    ],
+    liens: ["obsession", "exception", "sionisme"],
+  },
+  {
+    phrase: "Jews are smart, good with money. It's a compliment!",
+    mecanisme: "Toxic philosemitism",
+    mecanismeColor: COLORS.deconstruire,
+    reponse: [
+      "This is the best-intentioned trap. Saying 'Jews are smart' attributes a unique characteristic to an entire group — this is essentialization, exactly the same mechanism as racism, but with a positive sign.",
+      "And the compliment tips over with disconcerting ease: 'smart' becomes 'cunning.' 'Good with money' becomes 'they control finance.' 'Supportive of each other' becomes 'they only hire their own.' Fascinated admiration and paranoid hatred share the same premise: Jews are not ordinary people.",
+      "This is precisely what distinguishes antisemitism from other forms of racism: it does not look down on its target — it fears it. 'They are smart' already contains, in embryo, 'they are dangerous.' The distance between the two is shorter than one might think.",
+      "Admiring 'Jews' as a group is already to have removed them from common humanity. The true antidote to prejudice is not admiration — it is indifference to origin. Judging people as individuals, not as representatives of a group.",
+    ],
+    liens: ["philosemitisme", "controle", "inversion"],
+  },
+  {
+    phrase: "Israel is doing to the Palestinians what the Nazis did to them.",
+    mecanisme: "Victim inversion",
+    mecanismeColor: COLORS.mesurer,
+    reponse: [
+      "The situation of the Palestinians is tragic, and the policies of certain Israeli governments are condemnable. But the comparison with Nazism is factually disproportionate and morally calculated.",
+      "Nazism aimed at the total, systematic extermination of a people — six million dead in industrial gas chambers, without any military provocation. No serious historian supports the equivalence with the Israeli-Palestinian conflict, however brutal it may be. Using this comparison is not describing a reality — it is mobilizing the most painful symbol in Jewish history to turn it against Jews.",
+      "This inversion serves a precise function: it cancels out the Holocaust. If Jews are 'the new Nazis,' then the moral debt is erased, European guilt is settled, and one can go back to hating them without a guilty conscience. This is the ultimate stage of weaponized memory.",
+      "One can condemn the bombardment of Gaza, defend Palestinian rights, denounce the settlements — without comparing Israel to the Third Reich. The vocabulary of political criticism exists. Choosing precisely that comparison is seeking to wound, not to analyze.",
+    ],
+    liens: ["memoire", "obsession"],
+  },
+  {
+    phrase: "The CRIF dictates French policy.",
+    mecanisme: "Fantasy of control / Jewish lobby",
+    mecanismeColor: COLORS.deconstruire,
+    reponse: [
+      "The CRIF (Representative Council of French Jewish Institutions) is a communal representative body, like the CFCM (French Council of the Muslim Faith), the Conference of Bishops of France, or the Protestant Consistory. It organizes an annual dinner that politicians attend — just as they attend CFCM dinners or events hosted by the episcopate.",
+      "The idea that the CRIF 'dictates' French policy is a recycling of the fantasy of the all-powerful Jewish lobby. France has regularly voted against Israel at the UN. Macron has publicly criticized Netanyahu. French foreign policy has been structurally pro-Arab since de Gaulle. If the CRIF were 'dictating' anything, it would be obvious.",
+      "The mechanism is always the same: when a Jewish organization exercises normal influence (lobbying, communications, events), it is accused of 'controlling.' When any other organization does the same — employers' federations, agricultural unions, the pharmaceutical industry — it is ordinary lobbying.",
+      "The question to ask yourself: would you use the word 'dictate' to describe the influence of any other lobby or religious organization on French policy? If that word only comes to mind for a Jewish organization, then the fantasy of control is already at work.",
+    ],
+    liens: ["controle", "matrice"],
+  },
+  {
+    phrase: "A Jew is always more loyal to Israel than to France.",
+    mecanisme: "Accusation of dual loyalty",
+    mecanismeColor: COLORS.mesurer,
+    reponse: [
+      "This is one of the oldest antisemitic tropes: the Jew as perpetual foreigner, incapable of true loyalty to his country. This is the accusation that condemned Dreyfus. It is the one that justified medieval expulsions. It is the one that fuels 'go back where you came from' — directed at families who have been French for generations.",
+      "A French-Algerian who supports the Algerian football team is not accused of treason. A French-Portuguese person who sends money to family in Portugal is not suspected of dual loyalty. A French-Irish person who supports Irish reunification is not asked to choose. But a French Jew who cares about Israel's fate is immediately suspect.",
+      "The attachment of many French Jews to Israel is no different from the attachment of any diaspora to its country of origin or to a state that represents an existential insurance after centuries of persecution. This is not 'dual loyalty' — it is memory and prudence.",
+      "And above all: this accusation creates a trap. If the Jew asserts his Frenchness, he is accused of hiding something. If he asserts his bond with Israel, he is accused of disloyalty. This is the contradictory accusation in action — whatever he does, he is guilty.",
     ],
     liens: ["contradiction", "exil", "exception"],
   },

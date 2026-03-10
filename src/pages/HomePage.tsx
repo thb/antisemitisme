@@ -1,11 +1,17 @@
 import { Link } from "react-router-dom";
 import { COLORS } from "../data/colors";
-import { CATEGORIES } from "../data/categories";
-import { PAGES, getCategoryPages } from "../data/pages";
+import { getCategories } from "../data/categories";
+import { getPages, getCategoryPages, getPagePath } from "../data/pages";
+import { useLang } from "../i18n/useLang";
+import { getUIStrings } from "../i18n/ui";
 import { Card, NumberStat, Btn } from "../components/ui";
 import type { CategoryKey } from "../data/types";
 
 export const HomePage = () => {
+  const lang = useLang();
+  const t = getUIStrings(lang);
+  const categories = getCategories(lang);
+  const pages = getPages(lang);
   const cats: CategoryKey[] = ["comprendre", "deconstruire", "reconnaitre", "mesurer"];
 
   return (
@@ -27,7 +33,7 @@ export const HomePage = () => {
             marginBottom: "24px",
           }}
         >
-          <span>◆</span> Guide analytique
+          <span>◆</span> {t.analyticGuide}
         </div>
         <h1
           style={{
@@ -43,7 +49,7 @@ export const HomePage = () => {
             marginRight: "auto",
           }}
         >
-          Comprendre{" "}
+          {pages.home.title.split(" ")[0]}{" "}
           <span
             style={{
               background: `linear-gradient(135deg, ${COLORS.comprendre}, ${COLORS.deconstruire})`,
@@ -51,7 +57,7 @@ export const HomePage = () => {
               WebkitTextFillColor: "transparent",
             }}
           >
-            l'antisémitisme
+            {pages.home.title.split(" ").slice(1).join(" ")}
           </span>
         </h1>
         <p
@@ -63,15 +69,14 @@ export const HomePage = () => {
             margin: "0 auto 40px",
           }}
         >
-          Anatomie d'un système de pensée vieux de deux millénaires.
-          Ses mécanismes, ses mutations, ses formes contemporaines, ses conséquences.
+          {pages.home.subtitle}
         </p>
         <div style={{ display: "flex", gap: "12px", justifyContent: "center" }}>
-          <Link to="/definition" style={{ textDecoration: "none" }}>
-            <Btn primary>Commencer la lecture</Btn>
+          <Link to={getPagePath(lang, "definition")} style={{ textDecoration: "none" }}>
+            <Btn primary>{t.startReading}</Btn>
           </Link>
-          <Link to="/contradiction" style={{ textDecoration: "none" }}>
-            <Btn>Explorer les mécanismes</Btn>
+          <Link to={getPagePath(lang, "contradiction")} style={{ textDecoration: "none" }}>
+            <Btn>{t.exploreMechanisms}</Btn>
           </Link>
         </div>
       </div>
@@ -90,16 +95,16 @@ export const HomePage = () => {
           boxShadow: `0 2px 8px ${COLORS.shadow}`,
         }}
       >
-        <NumberStat number="4" label="Catégories thématiques" color={COLORS.comprendre} />
-        <NumberStat number="17" label="Articles de fond" color={COLORS.deconstruire} />
-        <NumberStat number="2000" label="Ans d'histoire analysés" color={COLORS.reconnaitre} />
-        <NumberStat number="3" label="Essais sources" color={COLORS.mesurer} />
+        <NumberStat number="4" label={t.thematicCategories} color={COLORS.comprendre} />
+        <NumberStat number="17" label={t.deepArticles} color={COLORS.deconstruire} />
+        <NumberStat number="2000" label={t.yearsAnalyzed} color={COLORS.reconnaitre} />
+        <NumberStat number="3" label={t.sourceEssays} color={COLORS.mesurer} />
       </div>
 
       {/* Category sections */}
       {cats.map((catKey) => {
-        const cat = CATEGORIES[catKey];
-        const pages = getCategoryPages(catKey);
+        const cat = categories[catKey];
+        const catPages = getCategoryPages(lang, catKey);
         return (
           <div key={catKey} style={{ marginBottom: "56px" }}>
             <div
@@ -152,11 +157,11 @@ export const HomePage = () => {
             <div
               style={{
                 display: "grid",
-                gridTemplateColumns: pages.length <= 3 ? "repeat(3, 1fr)" : "repeat(2, 1fr)",
+                gridTemplateColumns: catPages.length <= 3 ? "repeat(3, 1fr)" : "repeat(2, 1fr)",
                 gap: "16px",
               }}
             >
-              {pages.map((p) => (
+              {catPages.map((p) => (
                 <Card key={p.key} pageKey={p.key} page={p} />
               ))}
             </div>
@@ -179,16 +184,16 @@ export const HomePage = () => {
               width: "36px",
               height: "36px",
               borderRadius: "10px",
-              background: CATEGORIES.ressources.bg,
+              background: categories.ressources.bg,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
               fontSize: "16px",
-              color: CATEGORIES.ressources.color,
+              color: categories.ressources.color,
               fontWeight: 700,
             }}
           >
-            {CATEGORIES.ressources.icon}
+            {categories.ressources.icon}
           </span>
           <h2
             style={{
@@ -200,7 +205,7 @@ export const HomePage = () => {
               letterSpacing: "-0.5px",
             }}
           >
-            Ressources
+            {categories.ressources.label}
           </h2>
         </div>
         <p
@@ -211,13 +216,13 @@ export const HomePage = () => {
             marginLeft: "50px",
           }}
         >
-          Ouvrages, rapports, liens pour aller plus loin
+          {t.resourcesDesc}
         </p>
-        <Card pageKey="ressources" page={PAGES.ressources} />
+        <Card pageKey="ressources" page={pages.ressources} />
       </div>
 
       {/* FAQ banner */}
-      <Link to="/faq" style={{ textDecoration: "none" }}>
+      <Link to={getPagePath(lang, "faq")} style={{ textDecoration: "none" }}>
         <div
           style={{
             margin: "32px 0",
@@ -258,7 +263,7 @@ export const HomePage = () => {
                 letterSpacing: "-0.3px",
               }}
             >
-              « Je ne suis pas antisémite, mais… »
+              {t.faqBannerTitle}
             </h3>
             <p
               style={{
@@ -268,7 +273,7 @@ export const HomePage = () => {
                 lineHeight: 1.5,
               }}
             >
-              12 phrases entendues au quotidien, déconstruites une par une. Du dîner de famille aux réseaux sociaux.
+              {t.faqBannerDesc}
             </p>
           </div>
           <span
@@ -279,7 +284,7 @@ export const HomePage = () => {
               whiteSpace: "nowrap",
             }}
           >
-            Lire →
+            {t.readMore} →
           </span>
         </div>
       </Link>
@@ -306,7 +311,7 @@ export const HomePage = () => {
             letterSpacing: "-0.5px",
           }}
         >
-          Pourquoi ce guide ?
+          {t.whyThisGuide}
         </h2>
         <p
           style={{
@@ -317,10 +322,7 @@ export const HomePage = () => {
             margin: "0 auto 16px",
           }}
         >
-          L'antisémitisme prospère dans le flou, l'implicite, le non-dit.
-          Ce guide existe pour nommer les mécanismes — un par un, pièce par pièce —
-          afin que la prochaine fois que quelqu'un dit « je ne suis pas antisémite, mais… »,
-          on sache exactement quel engrenage vient de se mettre en marche.
+          {t.whyThisGuideP1}
         </p>
         <p
           style={{
@@ -331,8 +333,7 @@ export const HomePage = () => {
             margin: "0 auto",
           }}
         >
-          Le ton est analytique, pas militant. On décortique des mécanismes, on ne fait pas de propagande.
-          Tout est documenté, sourcé, vérifiable.
+          {t.whyThisGuideP2}
         </p>
       </div>
     </div>
