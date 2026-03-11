@@ -20,11 +20,6 @@ export const ObsessionPage = () => {
         <P>This pattern repeats across very different domains: criminal cases, finance, media, geopolitics. Each time, the same mechanism: a real fact is inflated into a systemic obsession, while equivalent or far greater realities generate only a fraction of the attention.</P>
       </Section>
 
-      <Section title="The Epstein case and pedophilia">
-        <P>The Epstein case is horrific and the crimes are real. But the obsessive media treatment — the "lists", the networks, the insinuations — stands in stark contrast to the general silence on the scale of pedophilia: in France, 160,000 children are victims each year (CIIVISE), overwhelmingly within families. No conspiracy, no "network" — the ordinary horror that generates no outrage.</P>
-        <P>Why does one case involving prominent figures produce more media frenzy than 160,000 anonymous victims per year? The question is uncomfortable, but the disproportion speaks for itself.</P>
-      </Section>
-
       <Section title="Finance: the Rothschild obsession">
         <P>The Rothschild name has been an antisemitic trope for two centuries. Today, conspiracy theories continue to present this family as masters of global finance. In reality, Rothschild & Co manages around 100 billion euros — substantial, but a drop compared to BlackRock (10,000 billion), Vanguard (8,000 billion), or sovereign wealth funds like Norway's (1,500 billion).</P>
         <P>These actors shape the world economy far more powerfully. Yet there is no "BlackRock controls the world" poster, no documentary about the "Vanguard plan." The obsession targets a name, not a scale of power.</P>
@@ -41,6 +36,11 @@ export const ObsessionPage = () => {
       <Section title="Geopolitics: Israel among other conflicts">
         <P>The Israeli-Palestinian conflict is atrocious. But the intensity of global attention is unmatched: more UN resolutions against Israel than against all other countries combined. Meanwhile, 500,000 dead in Syria, 150,000 in Yemen, the Tigray conflict, the persecution of Uyghurs, the war in the DRC — tragedies that generate only a fraction of the outrage.</P>
         <P>When the US bombs civilians in Iraq, no one demands every American in Paris justify themselves. When Russia razes Mariupol, no one asks every Russian to dissociate from Putin. But every Jew is asked individually: "Do you condemn it?"</P>
+      </Section>
+
+      <Section title="The Epstein case and pedophilia">
+        <P>The Epstein case is horrific and the crimes are real. But the obsessive media treatment — the "lists", the networks, the insinuations — stands in stark contrast to the general silence on the scale of pedophilia: in France, 160,000 children are victims each year (CIIVISE), overwhelmingly within families. No conspiracy, no "network" — the ordinary horror that generates no outrage.</P>
+        <P>Why does one case involving prominent figures produce more media frenzy than 160,000 anonymous victims per year? The question is uncomfortable, but the disproportion speaks for itself.</P>
       </Section>
 
       <KeyPoint color={COLORS.reconnaitre} title="The uncomfortable question" icon="◉">
@@ -69,11 +69,6 @@ export const ObsessionPage = () => {
         <P>Ce schéma se répète dans des domaines très différents : affaires judiciaires, finance, médias, géopolitique. À chaque fois, le même mécanisme : un fait réel est gonflé en obsession systémique, tandis que des réalités équivalentes ou bien plus graves ne génèrent qu'une fraction de l'attention.</P>
       </Section>
 
-      <Section title="L'affaire Epstein et la pédocriminalité">
-        <P>L'affaire Epstein est abjecte et les crimes sont réels. Mais le traitement obsessionnel — les « listes », les réseaux, les sous-entendus — contraste avec le silence général sur l'ampleur de la pédocriminalité : en France, 160 000 enfants en sont victimes chaque année (CIIVISE), très majoritairement dans le cadre familial. Pas de complot, pas de « réseau » — l'horreur ordinaire qui ne génère aucune indignation.</P>
-        <P>Pourquoi une affaire impliquant des personnalités produit-elle plus de frénésie médiatique que 160 000 victimes anonymes par an ? La question est inconfortable, mais la disproportion parle d'elle-même.</P>
-      </Section>
-
       <Section title="La finance : l'obsession Rothschild">
         <P>Le nom Rothschild est un trope antisémite depuis deux siècles. Aujourd'hui encore, les théories complotistes présentent cette famille comme les maîtres de la finance mondiale. En réalité, Rothschild & Co gère environ 100 milliards d'euros — considérable, mais une goutte d'eau face à BlackRock (10 000 milliards), Vanguard (8 000 milliards) ou les fonds souverains comme celui de la Norvège (1 500 milliards).</P>
         <P>Ces acteurs façonnent l'économie mondiale de manière bien plus puissante. Pourtant, pas d'affiche « BlackRock contrôle le monde », pas de documentaire sur le « plan Vanguard ». L'obsession cible un nom, pas une échelle de pouvoir.</P>
@@ -90,6 +85,11 @@ export const ObsessionPage = () => {
       <Section title="La géopolitique : Israël parmi les conflits">
         <P>Le conflit israélo-palestinien est atroce. Mais l'intensité de l'attention mondiale est sans équivalent : plus de résolutions de l'ONU contre Israël que contre tous les autres pays réunis. Pendant ce temps, 500 000 morts en Syrie, 150 000 au Yémen, le conflit au Tigré, les persécutions des Ouïghours, la guerre en RDC — des tragédies qui ne génèrent qu'une fraction de l'indignation.</P>
         <P>Quand les États-Unis bombardent des civils en Irak, on ne demande pas à chaque Américain de Paris de se justifier. Quand la Russie rase Marioupol, on ne demande pas à chaque Russe de se désolidariser de Poutine. Mais on demande à chaque Juif, individuellement : « Tu condamnes ? »</P>
+      </Section>
+
+      <Section title="L'affaire Epstein et la pédocriminalité">
+        <P>L'affaire Epstein est abjecte et les crimes sont réels. Mais le traitement obsessionnel — les « listes », les réseaux, les sous-entendus — contraste avec le silence général sur l'ampleur de la pédocriminalité : en France, 160 000 enfants en sont victimes chaque année (CIIVISE), très majoritairement dans le cadre familial. Pas de complot, pas de « réseau » — l'horreur ordinaire qui ne génère aucune indignation.</P>
+        <P>Pourquoi une affaire impliquant des personnalités produit-elle plus de frénésie médiatique que 160 000 victimes anonymes par an ? La question est inconfortable, mais la disproportion parle d'elle-même.</P>
       </Section>
 
       <KeyPoint color={COLORS.reconnaitre} title="La question qui dérange" icon="◉">
