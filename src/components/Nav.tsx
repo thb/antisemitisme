@@ -196,7 +196,7 @@ export const Nav = () => {
             background: `linear-gradient(135deg, ${COLORS.comprendre}, ${COLORS.deconstruire})`,
             backgroundClip: "text",
             WebkitTextFillColor: "transparent",
-          }}>antisemitisme</span>
+          }}>antisemitisme.guide</span>
         </Link>
 
         <div style={{ display: "flex", gap: "2px", alignItems: "center", fontSize: "14px" }}>
